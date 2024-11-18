@@ -6,9 +6,19 @@ import requests
 import time
 import datetime
 from ta.momentum import RSIIndicator
+from dotenv import load_dotenv
+import os
+
+# Carregar variáveis de ambiente do arquivo .env
+load_dotenv()
 
 # Importando credenciais
-from mysecrets import api_key_spot, api_secret_spot
+api_key_spot = os.getenv("api_key_spot")
+api_secret_spot = os.getenv("api_secret_spot")
+
+# Verifique se as credenciais foram carregadas corretamente
+if not api_key_spot or not api_secret_spot:
+    st.error("As credenciais da API não foram carregadas corretamente. Verifique o arquivo .env.")
 
 # Inicializando o cliente Binance
 client = Client(api_key_spot, api_secret_spot)
@@ -94,6 +104,9 @@ async def notify_conditions(symbol, timeframe):
 
 # Configuração do Streamlit
 st.title("Robô de Notificação para Criptomoedas")
+st.write("O sistema utiliza uma combinação de indicadores técnicos para gerar sinais de compra e venda para os pares de moedas selecionados ao identificar oportunidades de mercado baseadas em condições extremas de preço e volume.")
+st.write("As condições de compra são acionadas quando o preço atual está abaixo da Banda Inferior de Bollinger, o Estocástico está abaixo de 20, o volume de negociações está acima da média móvel e o RSI (Índice de Força Relativa) está abaixo de 27, indicando uma possível sobrevenda. Por outro lado, as condições de venda são ativadas quando o preço supera a Banda Superior de Bollinger, o Estocástico está acima de 80, o volume é maior que a média e o RSI ultrapassa 73, sugerindo uma possível sobrecompra.")
+st.write("Escolha as criptomoedas que deseja receber notificação, selecione o seu timeframe de análise e clique em 'Iniciar Monitoramento'")
 st.sidebar.header("Configurações")
 
 # Entrada do usuário

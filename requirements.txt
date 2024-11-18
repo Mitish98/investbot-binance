@@ -1,0 +1,5 @@
+streamlit==1.20.0
+binance==5.1.0
+pandas==2.1.0
+requests==2.31.0
+ta==0.10.0
