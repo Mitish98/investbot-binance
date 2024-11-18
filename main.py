@@ -93,11 +93,11 @@ async def notify_conditions(symbol, timeframe):
         volume_ma = df['volume'].rolling(window=21).mean().iloc[-1]
 
         # Condições de compra
-        if current_price < lower_band and stochastic_k < 20 and stochastic_d < 20 and df['volume'].iloc[-1] > volume_ma and rsi < 27:
+        if current_price < lower_band and stochastic_k < 20 and stochastic_d < 20 and df['volume'].iloc[-1] > volume_ma and rsi < 30:
             st.info(f"[{datetime.datetime.now()}] Sinal de COMPRA para {symbol}: Preço atual: {current_price}, RSI: {rsi:.2f}")
 
         # Condições de venda
-        if current_price > upper_band and stochastic_k > 80 and stochastic_d > 80 and df['volume'].iloc[-1] > volume_ma and rsi > 73:
+        if current_price > upper_band and stochastic_k > 80 and stochastic_d > 80 and df['volume'].iloc[-1] > volume_ma and rsi > 70:
             st.info(f"[{datetime.datetime.now()}] Sinal de VENDA para {symbol}: Preço atual: {current_price}, RSI: {rsi:.2f}")
 
         await asyncio.sleep(60)  # Aguarda 60 segundos antes de verificar novamente

@@ -3,4 +3,4 @@ requests
 ta
 pandas==1.5.3
 streamlit==1.26.0
-pillow
+Pillow==9.5.0
