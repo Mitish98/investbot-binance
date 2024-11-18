@@ -1,5 +1,5 @@
-streamlit==1.20.0
 python-binance
-pandas
 requests
 ta
+pandas==1.5.3
+streamlit==1.26.0
