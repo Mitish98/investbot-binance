@@ -9,21 +9,16 @@ from ta.momentum import RSIIndicator
 from dotenv import load_dotenv
 import os
 
-# Carregar variáveis de ambiente do arquivo .env
 load_dotenv()
 
-# Importando credenciais
 api_key_spot = os.getenv("api_key_spot")
 api_secret_spot = os.getenv("api_secret_spot")
 
-# Verifique se as credenciais foram carregadas corretamente
 if not api_key_spot or not api_secret_spot:
     st.error("As credenciais da API não foram carregadas corretamente. Verifique o arquivo .env.")
 
-# Inicializando o cliente Binance
 client = Client(api_key_spot, api_secret_spot)
 
-# Funções auxiliares
 def sync_time():
     try:
         url = 'https://fapi.binance.com/fapi/v1/time'
@@ -51,7 +46,6 @@ def calculate_stochastic_oscillator(df, k_period=14, d_period=3):
     df['%D'] = df['%K'].rolling(window=d_period).mean()
     return df
 
-# Sincronizando tempo
 time_difference = sync_time()
 
 async def fetch_ticker_and_candles(symbol, timeframe):
@@ -72,7 +66,6 @@ async def fetch_ticker_and_candles(symbol, timeframe):
         return None, None
 
 async def notify_conditions(symbol, timeframes):
-    """Envia notificações continuamente com base nas condições técnicas para múltiplos timeframes."""
     while True:  # Loop infinito
         for timeframe in timeframes:
             current_price, df = await fetch_ticker_and_candles(symbol, timeframe)
@@ -110,7 +103,6 @@ st.write("As condições de compra são acionadas quando o preço atual está ab
 st.write("Escolha as criptomoedas que deseja receber notificação, selecione o(s) seu(s) timeframe(s) de análise e clique em 'Iniciar Monitoramento'")
 st.sidebar.header("Configurações")
 
-# Entrada do usuário
 symbols = st.sidebar.multiselect("Selecione os pares de moedas", ["BTCUSDT", "ETHUSDT", "BNBUSDT", "DOTUSDT", "DOGEUSDT", "FTMUSDT", "ASTRUSDT", "XRPUSDT", "SOLUSDT", "LTCUSDT","PENDLEUSDT", "1000PEPEUSDT", "1000SHIBUSDT","AAVEUSDT","ORDIUSDT","UNIUSDT","LINKUSDT","ENSUSDT", "MOVRUSDT","ARBUSDT","TRBUSDT","MANTAUSDT","AVAXUSDT","NEIROUSDT", "1000BONKUSDT", "1000FLOKIUSDT"])
 timeframes = st.sidebar.multiselect("Selecione o(s) timeframe(s)", ["1m", "5m", "15m", "1h", "4h", "1d"])
 
